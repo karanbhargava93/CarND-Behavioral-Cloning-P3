@@ -34,6 +34,7 @@ My project includes the following files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network 
+* video.mp4 (a video recording of my vehicle driving autonomously around the track for one full lap)
 * writeup_report.md or writeup_report.pdf summarizing the results
 
 #### 2. Submission includes functional code
@@ -52,19 +53,19 @@ The `model.py` file contains the code for training and saving the convolution ne
 
 I've used the [End to End Learning Architecture](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf) by Nvidia.
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+My model consists of a convolution neural network with 5x5 filter sizes and depths 24, 36 and 48 (`utils.py` lines 124 to 128). I've used 3x3 filter size with depth of 64 twice after the previous filters. Every layer has been passed into a dropout layer so as to avoid overfitting. Then I flattened out the data and used dense layers with ELU activations to get the fianl steering angle.
 
-The model includes Exponential Linear Units (ELU) layers to introduce nonlinearities (in `model.py` lines ), and the data is normalized in the model using a Keras lambda layer (in `model.py` lines ). It also uses dropout layers to avoid overfitting.
+The model includes Exponential Linear Units (ELU) layers to introduce nonlinearities (in `model.py` lines 124 to 139), and the normalized data is fed to model using the preprocessed images from the function `preprocessimage` (in `utils.py` lines 27 to 34). It also uses dropout layers after every almost every layer to avoid overfitting.
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (`model.py` lines 21). 
+The model contains dropout layers in order to reduce overfitting (`utils.py` lines 21). 
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting (`model.py` lines 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (`model.py` line blah).
+The model used an adam optimizer, so the learning rate was not tuned manually (`model.py` lines 120 to 141).
 
 #### 4. Appropriate training data
 
