@@ -1,3 +1,5 @@
+import cv2
+
 import argparse
 import base64
 from datetime import datetime
@@ -21,6 +23,12 @@ app = Flask(__name__)
 model = None
 prev_image_array = None
 
+def preprocess_img(img):
+    img2 = img[66:132, :, :]
+    res = cv2.resize(img2,(200, 66), interpolation = cv2.INTER_CUBIC)
+    # res = cv2.cvtColor(res, cv2.COLOR_BGR2YUV)
+    res = res/255 - 0.5
+    return np.array(res)
 
 class SimplePIController:
     def __init__(self, Kp, Ki):
@@ -43,7 +51,7 @@ class SimplePIController:
         return self.Kp * self.error + self.Ki * self.integral
 
 
-controller = SimplePIController(0.1, 0.002)
+controller = SimplePIController(0.1, 0.002) #0.1
 set_speed = 9
 controller.set_desired(set_speed)
 
@@ -60,7 +68,7 @@ def telemetry(sid, data):
         # The current image from the center camera of the car
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
-        image_array = np.asarray(image)
+        image_array = preprocess_img(np.asarray(image))
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
         throttle = controller.update(float(speed))
