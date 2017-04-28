@@ -1,10 +1,15 @@
 from utils import *
 
 # Get data and labels into training and validation sets with 10% split
-X_train, X_valid, y_train, y_valid = get_data('./data_udacity/data1/', 'driving_log.csv', 0.2)
+X_train, X_valid, y_train, y_valid = get_data('./data_udacity/data1/', 'driving_log.csv', 
+												split_ratio = 0.2, 
+												low_steer = 0.01, 
+												drop_ratio = 0.95,
+												visualize = True) 
+# ('', './data/driving_log.csv', 0.2)#('./data_udacity/data1/', 'driving_log.csv', 0.2)
 
 # Instantiate model
-model = nvidia_model(False)
+model = nvidia_model(summary = True)
 
 # Parameters
 BATCH_SIZE = 32 #1024
