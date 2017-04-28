@@ -59,13 +59,13 @@ The model includes Exponential Linear Units (ELU) layers to introduce nonlineari
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (`utils.py` lines 21). 
+The model contains dropout layers in order to reduce overfitting (`utils.py` lines 125 to 140). 
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (`model.py` lines 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on different data sets to ensure that the model was not overfitting (`utils.py` line 90). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (`model.py` lines 120 to 141).
+The model used an adam optimizer, so the learning rate was not tuned manually however the default learning rate (0.01) wasn't giving satisfactory results so I changed it to 0.001 (`utils.py` line 146).
 
 #### 4. Appropriate training data
 
