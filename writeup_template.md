@@ -17,7 +17,8 @@ The goals / steps of this project are the following:
 [image1]: ./examples/arch.png "Model Visualization"
 [theta_dist_before]: ./examples/theta_dist_before.png "theta_dist_before"
 [theta_dist_after]: ./examples/theta_dist_after.png "theta_dist_after"
-[crop]: ./examples/crop.png "Cropped image"
+[crop]: ./examples/crop.png "Cropped Image"
+[flip]: ./examples/flip.png "Flipped Image"
 
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
@@ -159,9 +160,15 @@ The udacity dataset had the above distribution for the frequency of images versu
 
 #### B. Cropping Images
 
-The model was easily distracted by the trees and scenery which was above the road. So I decided to crop the image and resize it to 66 x 200 which was the input used in the Nvidia paper. This is a sample of the original and cropped image.
+The model was easily distracted by the trees and scenery which was above the road. So I decided to crop the image and resize it to 66 x 200 which was the input used in the Nvidia paper. This is a sample of the original and cropped image. The code for this is in the `preprocessimage` function in `utils.py` at lines 16 to 24.
 
 ![alt text][crop]
+
+#### C. Flipping Images
+
+Its very intuitive that if the control action was theta for an image then for the vertically flipped image the control signal would be -theta. I've flipped images randomly 30% of the time in the `image_generator` function in `utils.py` from line 166 to 171.
+
+![alt text][flip]
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
