@@ -17,6 +17,8 @@ The goals / steps of this project are the following:
 [image1]: ./examples/arch.png "Model Visualization"
 [theta_dist_before]: ./examples/theta_dist_before.png "theta_dist_before"
 [theta_dist_after]: ./examples/theta_dist_after.png "theta_dist_after"
+[crop]: ./examples/crop.png "Cropped image"
+
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
@@ -147,8 +149,19 @@ Here is a visualization of the architecture from the nvidia paper.
 
 I have used the dataset given by udacity to train my model. However the model wasn't trained well using the data as is. I had to augment and drop low steering angles so as to arrive at a good dataset for the model to work on.
 
-###### Dropping Low Angles
-![alt text][theta_dist_before][theta_dist_after]
+#### A. Dropping Low Angles
+
+![alt text][theta_dist_before]
+
+The udacity dataset had the above distribution for the frequency of images versus the absolute theta angle. As we can clearly see, most of the data is concentrated at very small angles. We need to remove most of these low steering angles so as to let our model generalize better and not be influenced much from the low angles only. Otherwise our model would be very good at driving straight but will perform catastrophically at tight curves. The code used to randomly drop these angles from the dataset is given in the `get_data` function in the `utils.py` at lines 100 to 125. The distribution after dropping the angles is given below.
+
+![alt text][theta_dist_after]
+
+#### B. Cropping Images
+
+The model was easily distracted by the trees and scenery which was above the road. So I decided to crop the image and resize it to 66 x 200 which was the input used in the Nvidia paper. This is a sample of the original and cropped image.
+
+![alt text][crop]
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
