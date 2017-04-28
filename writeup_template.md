@@ -15,6 +15,8 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./examples/arch.png "Model Visualization"
+[theta_dist_before]: ./examples/theta_dist_before.png "theta_dist_before"
+[theta_dist_after]: ./examples/theta_dist_after.png "theta_dist_after"
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
@@ -146,11 +148,11 @@ Here is a visualization of the architecture from the nvidia paper.
 I have used the dataset given by udacity to train my model. However the model wasn't trained well using the data as is. I had to augment and drop low steering angles so as to arrive at a good dataset for the model to work on.
 
 ###### Dropping Low Angles
-![alt text][./examples/theta_dist_before.png]
+![alt text][theta_dist_before][theta_dist_after]
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
-![alt text][image2]
+
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
 
