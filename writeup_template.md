@@ -83,6 +83,50 @@ My first step was to use a convolution neural network model similar to the ... I
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
 
+`
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_1 (Conv2D)            (None, 33, 100, 24)       1824      
+_________________________________________________________________
+spatial_dropout2d_1 (Spatial (None, 33, 100, 24)       0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 17, 50, 36)        21636     
+_________________________________________________________________
+spatial_dropout2d_2 (Spatial (None, 17, 50, 36)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 7, 23, 48)         43248     
+_________________________________________________________________
+spatial_dropout2d_3 (Spatial (None, 7, 23, 48)         0         
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 5, 21, 64)         27712     
+_________________________________________________________________
+spatial_dropout2d_4 (Spatial (None, 5, 21, 64)         0         
+_________________________________________________________________
+conv2d_5 (Conv2D)            (None, 3, 19, 64)         36928     
+_________________________________________________________________
+spatial_dropout2d_5 (Spatial (None, 3, 19, 64)         0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 3648)              0         
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 3648)              0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 100)               364900    
+_________________________________________________________________
+dense_2 (Dense)              (None, 50)                5050      
+_________________________________________________________________
+dense_3 (Dense)              (None, 10)                510       
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 10)                0         
+_________________________________________________________________
+dense_4 (Dense)              (None, 1)                 11        
+=================================================================
+Total params: 501,819
+Trainable params: 501,819
+Non-trainable params: 0
+_________________________________________________________________
+`
+
 To combat the overfitting, I modified the model so that ...
 
 Then I ... 
