@@ -59,7 +59,7 @@ The `model.py` file contains the code for training and saving the convolution ne
 
 I've used the [End to End Learning Architecture](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf) by Nvidia.
 
-My model consists of a convolution neural network with 5x5 filter sizes and depths 24, 36 and 48 (`utils.py` lines 124 to 128). I've used 3x3 filter size with depth of 64 twice after the previous filters. Every layer has been passed into a dropout layer so as to avoid overfitting. Then I flattened out the data and used dense layers with ELU activations to get the fianl steering angle.
+My model consists of a convolution neural network with 5x5 filter sizes and depths 24, 36 and 48 (`utils.py` lines 124 to 128). I've used 3x3 filter size with depth of 64 twice after the previous filters. Every layer has been passed into a dropout layer so as to avoid overfitting. Then I flattened out the data and used dense layers with ELU activations to get the final steering angle.
 
 The model includes Exponential Linear Units (ELU) layers to introduce nonlinearities (in `model.py` lines 124 to 139), and the normalized data is fed to model using the preprocessed images from the function `preprocessimage` (in `utils.py` lines 27 to 34). It also uses dropout layers after every almost every layer to avoid overfitting.
 
@@ -71,7 +71,7 @@ The model was trained and validated on different data sets to ensure that the mo
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually however the default learning rate (0.01) wasn't giving satisfactory results so I changed it to 0.001 (`utils.py` line 146).
+The model used an adam optimizer, so the learning rate was not tuned manually however the default learning rate (0.01) wasn't giving satisfactory results so I changed it to 0.001 (`utils.py` line 146). The model was run for 50 epochs keeping in mind the validation mae as the measure of overfitting and underfitting.
 
 #### 4. Appropriate training data
 
@@ -141,7 +141,7 @@ Non-trainable params: 0
 _________________________________________________________________
 ```
 
-Here is a visualization of the architecture from the nvidia paper.
+Here is a visualization of the architecture from the Nvidia paper.
 
 ![alt text][image1]
 
@@ -159,7 +159,7 @@ The udacity dataset had the above distribution for the frequency of images versu
 
 #### B. Cropping Images
 
-The model was easily distracted by the trees and scenery which was above the road. So I decided to crop the image and resize it to 66 x 200 which was the input used in the Nvidia paper. This is a sample of the original and cropped image. The code for this is in the `preprocessimage` function in `utils.py` at lines 16 to 24.
+The model was easily distracted by the trees and scenery which was above the road. So I decided to crop the image and resize it to 66 x 200 which was the input used in the Nvidia paper. This is a sample of the original and cropped image. The code for this is in the `preprocessimage` function in `utils.py` at lines 27 to 34.
 
 ![alt text][crop]
 
