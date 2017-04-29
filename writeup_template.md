@@ -19,6 +19,7 @@ The goals / steps of this project are the following:
 [theta_dist_after]: ./examples/theta_dist_after.png "theta_dist_after"
 [crop]: ./examples/crop.png "Cropped Image"
 [flip]: ./examples/flip.png "Flipped Image"
+[sample_theta]: ./examples/sample_theta.png "Left Center Right"
 
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
@@ -74,9 +75,7 @@ The model used an adam optimizer, so the learning rate was not tuned manually ho
 
 #### 4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
-
-For details about how I created the training data, see the next section. 
+I used the dataset given by udacity in conjuction with various techniques which are discussed below to yield a decent dataset which can be used to create a working model.
 
 ### Model Architecture and Training Strategy
 
@@ -96,7 +95,7 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 #### 2. Final Model Architecture
 
-The final model architecture (`utils.py` lines 181-209) consisted of the nvidia architecture with the following layers and layer sizes given below: 
+The final model architecture (`utils.py` lines 181 through 209) consisted of the nvidia architecture with the following layers and layer sizes given below: 
 
 ```
 _________________________________________________________________
@@ -148,7 +147,7 @@ Here is a visualization of the architecture from the nvidia paper.
 
 #### 3. Creation of the Training Set & Training Process
 
-I have used the dataset given by udacity to train my model. However the model wasn't trained well using the data as is. I had to augment and drop low steering angles so as to arrive at a good dataset for the model to work on.
+I have used the dataset given by udacity to train my model. However the model wasn't trained well using the data as is. I had to augment, crop, resize and drop low steering angles so as to arrive at a good dataset for the model to work on.
 
 #### A. Dropping Low Angles
 
@@ -170,28 +169,17 @@ Its very intuitive that if the control action was theta for an image then for th
 
 ![alt text][flip]
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+#### D. Using Left and Right Camera Images
+The left and right camera images can be treated as the center camera image displaced by a certain distance. The steering angle with both the right and the left camera is offset by a certain quantity from the steering angle of the center camera if we view them independantly to increase our datasize by 200%. This quantity was determined emperically and was close to 0.25. This has been done in the `get_data` function in `utils.py` from line 137 to 141.
 
+![alt text][sample_theta]
 
+#### E. Image Generator
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+The model has been trained with an image generator which takes the list of filenames and the batch size to yield a minibatch of data. It reduces the memory used and hence can be used with most computers when the batchsize is changed. If we do not use this then we might run into situations with memoryerrors. The code for the `image_generator` function is in `utils.py` from line 150 to 172.
 
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
+#### F. Miscellaneous
 
-Then I repeated this process on track two in order to get more data points.
+I finally randomly shuffled the dataset and put 20% of the data into a validation set in the function `get_data` in `utils.py` from line 143.
 
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
-
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model through the `image_generator`. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 50 as evidenced by the mae on the validation  I used an adam optimizer with 0.001 as the initial learning rate so that manually training the learning rate wasn't necessary.
