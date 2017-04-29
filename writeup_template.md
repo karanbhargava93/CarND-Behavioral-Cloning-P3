@@ -64,7 +64,7 @@ The `model.py` file contains the code for training and saving the convolution ne
 
 I've used the [End to End Learning Architecture](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf) by Nvidia. The complete model is given as a function named `nvidia_model` in `utils.py` lines 181 through 209
 
-My model consists of a convolution neural network with 5x5 filter sizes and depths 24, 36 and 48 (`utils.py` lines 185 to 189). I've used 3x3 filter size with depth of 64 twice after the previous filters. Every layer has been passed into a dropout layer so as to avoid overfitting. Then I flattened out the data and used dense layers with ELU activations to get the final steering angle.
+My model consists of a lambda layer to normalize the data, then convolution neural networks with 5x5 filter sizes and depths 24, 36 and 48 (`utils.py` lines 185 to 189). I've used 3x3 filter size with depth of 64 twice after the previous filters. Every layer has been passed into a dropout layer so as to avoid overfitting. Then I flattened out the data and used dense layers with ELU activations to get the final steering angle.
 
 The model includes Exponential Linear Units (ELU) layers to introduce nonlinearities (in `model.py` lines 185 to 200), and the normalized data is fed to model using the preprocessed images from the function `preprocessimage` (in `utils.py` lines 27 to 34). It also uses dropout layers after every almost every layer to avoid overfitting.
 
@@ -86,13 +86,11 @@ I used the dataset given by udacity in conjuction with various techniques which 
 
 #### 1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
-
 My first step was to use a convolution neural network model similar to the LeNet architecture to get a feel of how keras would work. Obviously it didn't work well. Then I searched for previously built networks for autonomous cars and came across the paper by Nvidia. They had used the same data as us and gotten neat results. So I thought that its a nice place to start.
 
 To combat the overfitting, I modified the model so that it used dropout layers after almost all layers. This made it very unlikely for the model to overfit.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. This was done in the `get_data` function in `utils.py` line 143. The network was trained till the mean absolute error in the validation set started ramping up (EPOCH 50). 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. This was done in the `get_data` function in `utils.py` line 143. The network was trained for 50 epochs (till the mean absolute error in the validation set started ramping up).
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track and to improve the driving behavior in these cases, I modified the image generator to augment the dataset with the techniques given below.
 
@@ -106,6 +104,8 @@ The final model architecture (`utils.py` lines 181 through 209) consisted of the
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
+lambda_1 (Lambda)            (None, 66, 200, 3)        0         
+_________________________________________________________________
 conv2d_1 (Conv2D)            (None, 33, 100, 24)       1824      
 _________________________________________________________________
 spatial_dropout2d_1 (Spatial (None, 33, 100, 24)       0         
