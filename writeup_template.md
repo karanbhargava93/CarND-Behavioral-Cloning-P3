@@ -20,6 +20,7 @@ The goals / steps of this project are the following:
 [crop]: ./examples/crop.png "Cropped Image"
 [flip]: ./examples/flip.png "Flipped Image"
 [sample_theta]: ./examples/sample_theta.png "Left Center Right"
+[video]: video.mp4 "video"
 
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
@@ -32,6 +33,10 @@ The goals / steps of this project are the following:
 Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
+### Video Output
+
+A video of a successful lap around track one is given as [video] from running the scripts given by Udacity.
+
 ### Files Submitted & Code Quality
 
 #### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
@@ -57,21 +62,21 @@ The `model.py` file contains the code for training and saving the convolution ne
 
 #### 1. An appropriate model architecture has been employed
 
-I've used the [End to End Learning Architecture](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf) by Nvidia.
+I've used the [End to End Learning Architecture](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf) by Nvidia. The complete model is given as a function named `nvidia_model` in `utils.py` lines 181 through 209
 
-My model consists of a convolution neural network with 5x5 filter sizes and depths 24, 36 and 48 (`utils.py` lines 124 to 128). I've used 3x3 filter size with depth of 64 twice after the previous filters. Every layer has been passed into a dropout layer so as to avoid overfitting. Then I flattened out the data and used dense layers with ELU activations to get the final steering angle.
+My model consists of a convolution neural network with 5x5 filter sizes and depths 24, 36 and 48 (`utils.py` lines 185 to 189). I've used 3x3 filter size with depth of 64 twice after the previous filters. Every layer has been passed into a dropout layer so as to avoid overfitting. Then I flattened out the data and used dense layers with ELU activations to get the final steering angle.
 
-The model includes Exponential Linear Units (ELU) layers to introduce nonlinearities (in `model.py` lines 124 to 139), and the normalized data is fed to model using the preprocessed images from the function `preprocessimage` (in `utils.py` lines 27 to 34). It also uses dropout layers after every almost every layer to avoid overfitting.
+The model includes Exponential Linear Units (ELU) layers to introduce nonlinearities (in `model.py` lines 185 to 200), and the normalized data is fed to model using the preprocessed images from the function `preprocessimage` (in `utils.py` lines 27 to 34). It also uses dropout layers after every almost every layer to avoid overfitting.
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (`utils.py` lines 125 to 140). 
+The model contains dropout layers in order to reduce overfitting (`utils.py` lines 185 to 202). 
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (`utils.py` line 90). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on different data sets to ensure that the model was not overfitting (`utils.py` line 143). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually however the default learning rate (0.01) wasn't giving satisfactory results so I changed it to 0.001 (`utils.py` line 146). The model was run for 50 epochs keeping in mind the validation mae as the measure of overfitting and underfitting.
+The model used an adam optimizer, so the learning rate was not tuned manually however the default learning rate (0.01) wasn't giving satisfactory results so I changed it to 0.001 (`utils.py` line 207). The model was run for 50 epochs keeping in mind the validation mae as the measure of overfitting and underfitting.
 
 #### 4. Appropriate training data
 
@@ -87,9 +92,9 @@ My first step was to use a convolution neural network model similar to the LeNet
 
 To combat the overfitting, I modified the model so that it used dropout layers after almost all layers. This made it very unlikely for the model to overfit.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. This was done in the `get_data` function in `utils.py` line 143. The network was trained till the mean squared error in the validation set started ramping up (EPOCH 50). 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. This was done in the `get_data` function in `utils.py` line 143. The network was trained till the mean absolute error in the validation set started ramping up (EPOCH 50). 
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track and to improve the driving behavior in these cases, I modified the image generator to augment the dataset.
+The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track and to improve the driving behavior in these cases, I modified the image generator to augment the dataset with the techniques given below.
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
