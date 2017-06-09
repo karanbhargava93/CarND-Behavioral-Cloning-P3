@@ -6,7 +6,7 @@ from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten, Input, SpatialDropout2D
+from keras.layers import Dense, Dropout, Activation, Flatten, Input, SpatialDropout2D, Lambda
 from keras.layers.convolutional import Conv2D
 from keras.optimizers import Adam
 from random import randint
@@ -19,8 +19,6 @@ def preprocessimagevisualization(img_filename):
 	img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 	img2 = img[66:132, :, :]
 	res = cv2.resize(img2,(200, 66), interpolation = cv2.INTER_CUBIC)
-	# res = cv2.cvtColor(res, cv2.COLOR_BGR2YUV)
-	# res = res / 255 - 0.5
 	return res
 
 # Preprocessing the image
@@ -29,8 +27,7 @@ def preprocessimage(img_filename):
 	img = cv2.imread(img_filename)
 	img2 = img[66:132, :, :]
 	res = cv2.resize(img2,(200, 66), interpolation = cv2.INTER_CUBIC)
-	# res = cv2.cvtColor(res, cv2.COLOR_BGR2YUV)
-	res = res / 255 - 0.5
+	res = res/255.0 - 0.5
 	return np.array(res)
 
 def get_data(folder, drivinglogfilename, split_ratio, low_steer, drop_ratio, visualize = True):
@@ -182,7 +179,7 @@ def nvidia_model(summary = True):
 	# Nvidia architecture
 	model = Sequential()
 
-	model.add(Conv2D(24, (5, 5), padding="same", strides=(2,2), activation="elu", input_shape=(66, 200, 3)))
+	model.add(Conv2D(24, (5, 5), padding="same", strides=(2,2), activation="elu", input_shape = (66, 200, 3)))
 	model.add(SpatialDropout2D(0.2))
 	model.add(Conv2D(36, (5, 5), padding="same", strides=(2,2), activation="elu"))
 	model.add(SpatialDropout2D(0.2))
